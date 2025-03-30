@@ -1,0 +1,2 @@
+# collatz
+Solves Collatz problem

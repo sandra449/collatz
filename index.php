@@ -1,39 +1,19 @@
 <?php
-include "function.php";
+include 'function.php';
 
-$startNumber = 5;
-$collatz = new Collatz($startNumber);
-$collatzHistogram = new CollatzHistogram($startNumber);
+$collatz = new Collatz(5);
 
-$startRange = 25;
-$endRange = 24658;
+// Test calculation for a single number
+$sequence = $collatz->calculateSequence(5);
+echo "Sequence for 5: " . implode(", ", $sequence) . "\n";
 
-// Test sequence for a single number
-$sequence = $collatz->calculateSequence($startNumber);
-echo "Collatz sequence for $startNumber: " . implode(", ", $sequence) . "\n";
+// Test calculation for a range
+$rangeResults = $collatz->calculateInRange(25, 24658);
+echo "Calculated sequence for range 25-24658\n";
 
 // Test statistics
-$stats = $collatz->getStatistics($startRange, $endRange);
-echo "Number with max iterations: " .
-    $stats["numberWithMaxIterations"] .
-    " (" .
-    $stats["maxIterations"] .
-    " steps)\n";
-echo "Number with min iterations: " .
-    $stats["numberWithMinIterations"] .
-    " (" .
-    $stats["minIterations"] .
-    " steps)\n";
-echo "Number with max reached value: " .
-    $stats["numberWithMaxValue"] .
-    " (Max value: " .
-    $stats["maxValue"] .
-    ")\n";
-
-// Test histogram
-$histogram = $collatzHistogram->generateHistogram($startRange, $endRange);
-echo "Histogram of iteration counts:\n";
-foreach ($histogram as $iterations => $count) {
-    echo "Iterations: $iterations, Count: $count\n";
-}
+$stats = $collatz->getStatistics(25, 24658);
+echo "Number with max iterations: " . $stats['numberWithMaxIterations'] . " (" . $stats['maxIterations'] . " steps)\n";
+echo "Number with min iterations: " . $stats['numberWithMinIterations'] . " (" . $stats['minIterations'] . " steps)\n";
+echo "Number with max reached value: " . $stats['numberWithMaxValue'] . " (Max value: " . $stats['maxValue'] . ")\n";
 ?>

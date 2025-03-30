@@ -1,19 +1,14 @@
 <?php
-class Collatz
-{
-    protected $startNumber;
-    const MIN_VALUE = 1;
-    const MAX_RANGE = 100;
+class Collatz {
+    private $startNumber;
 
-    public function __construct($startNumber)
-    {
+    public function __construct($startNumber) {
         $this->startNumber = $startNumber;
     }
 
-    public function calculateSequence($num)
-    {
+    public function calculateSequence($num) {
         $sequence = [];
-        while ($num != self::MIN_VALUE) {
+        while ($num != 1) {
             $sequence[] = $num;
             if ($num % 2 == 0) {
                 $num /= 2;
@@ -21,21 +16,19 @@ class Collatz
                 $num = 3 * $num + 1;
             }
         }
-        $sequence[] = self::MIN_VALUE;
+        $sequence[] = 1;
         return $sequence;
     }
 
-    public function calculateInRange($start, $end)
-    {
+    public function calculateInRange($start, $end) {
         $results = [];
-        foreach (range($start, min($end, self::MAX_RANGE)) as $num) {
+        foreach (range($start, $end) as $num) {
             $results[$num] = $this->calculateSequence($num);
         }
         return $results;
     }
 
-    public function getStatistics($start, $end)
-    {
+    public function getStatistics($start, $end) {
         $maxIterations = 0;
         $minIterations = PHP_INT_MAX;
         $maxValue = 0;
@@ -43,7 +36,7 @@ class Collatz
         $numberWithMinIterations = 0;
         $numberWithMaxValue = 0;
 
-        foreach (range($start, min($end, self::MAX_RANGE)) as $num) {
+        foreach (range($start, $end) as $num) {
             $sequence = $this->calculateSequence($num);
             $iterations = count($sequence) - 1;
             $maxReachedValue = max($sequence);
@@ -63,30 +56,13 @@ class Collatz
         }
 
         return [
-            "numberWithMaxIterations" => $numberWithMaxIterations,
-            "maxIterations" => $maxIterations,
-            "numberWithMinIterations" => $numberWithMinIterations,
-            "minIterations" => $minIterations,
-            "numberWithMaxValue" => $numberWithMaxValue,
-            "maxValue" => $maxValue,
+            'numberWithMaxIterations' => $numberWithMaxIterations,
+            'maxIterations' => $maxIterations,
+            'numberWithMinIterations' => $numberWithMinIterations,
+            'minIterations' => $minIterations,
+            'numberWithMaxValue' => $numberWithMaxValue,
+            'maxValue' => $maxValue
         ];
-    }
-}
-
-class CollatzHistogram extends Collatz
-{
-    public function generateHistogram($start, $end)
-    {
-        $histogram = [];
-        foreach (range($start, min($end, self::MAX_RANGE)) as $num) {
-            $iterations = count($this->calculateSequence($num)) - 1;
-            if (!isset($histogram[$iterations])) {
-                $histogram[$iterations] = 0;
-            }
-            $histogram[$iterations]++;
-        }
-        ksort($histogram);
-        return $histogram;
     }
 }
 ?>
